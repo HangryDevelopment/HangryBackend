@@ -1,4 +1,4 @@
-package com.example.hangrybackend;
+package hangrydevelopment.hangrybackend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
