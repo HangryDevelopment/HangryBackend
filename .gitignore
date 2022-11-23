@@ -13,6 +13,7 @@ target
 logs
 *.class
 out/*
+application.properties
 
 ### STS ###
 .apt_generated
