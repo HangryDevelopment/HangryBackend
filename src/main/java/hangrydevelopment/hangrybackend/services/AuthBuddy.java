@@ -38,6 +38,7 @@ public class AuthBuddy {
         }
         String email = fields[0];
         String userName = fields[2];
+        String googleAvatar = fields[1];
         User user = usersRepository.findByEmail(email);
         if (user == null) {
             user = new User();
@@ -46,7 +47,7 @@ public class AuthBuddy {
             user.setRole(UserRole.USER);
             user.setUserName(userName);
             user.setBackdrop_url("https://cdn.filestackcontent.com/wx4L9lbvTcOuXRmjcOmg");
-            user.setAvatar_url(fields[1]);
+            user.setAvatar_url(googleAvatar);
             user.setCreatedAt(LocalDate.now());
             usersRepository.save(user);
         } else {

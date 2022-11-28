@@ -26,12 +26,6 @@ public class User {
     @Column(nullable = false, unique = true, length = 50)
     private String userName;
 
-    @Column(unique = true, length = 50)
-    private String gamerTag;
-
-    @Column(nullable = false, length = 25)
-    private String region;
-
     @Column(nullable = false, length = 10)
     private Boolean blocked;
 
