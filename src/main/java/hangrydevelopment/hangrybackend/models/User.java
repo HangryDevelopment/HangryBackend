@@ -56,6 +56,21 @@ public class User {
     @ToString.Exclude
     private List<User> userFriends;
 
+    @ManyToMany(
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.DETACH, CascadeType.REFRESH},
+            targetEntity = Restaurant.class)
+    @JoinTable(
+            name="user_restaurants",
+            joinColumns = {@JoinColumn(name = "user_id", nullable = false, updatable = false)},
+            inverseJoinColumns = {@JoinColumn(name="restaurants_id", nullable = false, updatable = false)},
+            foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
+            inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT)
+    )
+    @JsonIgnoreProperties("users")
+    @ToString.Exclude
+    private Collection<Restaurant> restaurants;
+
 //    @ManyToMany(cascade = CascadeType.MERGE, mappedBy = "userFriends")
 //    @JsonIgnoreProperties({"userFriends", "likes", "userName", "gamerTag", "region", "blocked", "email", "createdAt", "role", "friendsList", "posts", "postComments", "games", "platforms"})
 //    private List<User> friendsList;
