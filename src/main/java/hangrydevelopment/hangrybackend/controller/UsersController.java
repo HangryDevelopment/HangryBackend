@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 @AllArgsConstructor
 @RestController
 @RequestMapping(value = "/api/users", produces = "application/json")
@@ -30,6 +30,7 @@ public class UsersController {
     // Using Google login, need to verify if email and password encoder is needed:
 //    private PasswordEncoder passwordEncoder;
 //
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("")
     public List<UserFetchDto> fetchUsers() {
 //        return usersRepository.fetchUserDTOs();
@@ -47,8 +48,10 @@ public class UsersController {
         }
         return userDTOs;
     }
+
     //
     @GetMapping("/{id}")
+    @CrossOrigin(origins = "http://localhost:3000")
     public Optional<User> fetchUserById(@PathVariable long id) {
         Optional<User> optionalUser = usersRepository.findById(id);
         if (optionalUser.isEmpty()) {
@@ -58,6 +61,7 @@ public class UsersController {
     }
 
     @GetMapping("/authinfo")
+    @CrossOrigin(origins = "http://localhost:3000")
     private UserAuthInfoDTO getUserAuthInfo(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader) {
         User loggedInUser = authBuddy.getUserFromAuthHeader(authHeader);
 
@@ -72,8 +76,10 @@ public class UsersController {
 
         return userDTO;
     }
+
     //
     @GetMapping("/me")
+    @CrossOrigin(origins = "http://localhost:3000")
     private Optional<User> fetchMe() {
         String userName = "Scrimm";
         User user = usersRepository.findByUserName(userName);
@@ -96,6 +102,7 @@ public class UsersController {
 //    }
 //
     @PostMapping("/create")
+    @CrossOrigin(origins = "http://localhost:3000")
     public void createUser(@RequestBody User newUser) {
         // TODO: validate new user fields
         if (newUser.getUserName().contains("Chase")) {
@@ -111,6 +118,7 @@ public class UsersController {
     }
 
     @DeleteMapping("/{id}")
+    @CrossOrigin(origins = "http://localhost:3000")
     public void deleteUserById(@PathVariable long id) {
         Optional<User> optionalUser = usersRepository.findById(id);
         if (optionalUser.isEmpty()) {
@@ -120,6 +128,7 @@ public class UsersController {
     }
 
     @PutMapping("/{id}")
+    @CrossOrigin(origins = "http://localhost:3000")
     public void updateUser(@RequestBody User updatedUser, @PathVariable long id) {
         Optional<User> optionalUser = usersRepository.findById(id);
         if (optionalUser.isEmpty()) {
