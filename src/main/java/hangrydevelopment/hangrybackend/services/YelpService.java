@@ -30,7 +30,7 @@ public class YelpService {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", apiKey);
         headers.add("accept", "application/json");
-        String url = "https://api.yelp.com/v3/businesses/search?location=" + location + "&term=food&categories=Fast%20food&sort_by=best_match&limit=20";
+        String url = "https://api.yelp.com/v3/businesses/search?location=" + location + "&radius=25000&term=fastfood&categories=Fast%20food&sort_by=distance&limit=50";
         HttpEntity<Object> entity = new HttpEntity<Object>(headers);
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
