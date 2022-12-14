@@ -22,12 +22,15 @@ import java.util.List;
 @RequestMapping(value = "/api/yelpFetch", produces = "application/json")
 public class YelpService {
 
+    @Value("${api.key}")
+    private String apiKey;
+
     @GetMapping("/{location}")
     public ResponseEntity<String> getRestaurants(@PathVariable String location) {
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Bearer YELP-API-KEY");
+        headers.add("Authorization", apiKey);
         headers.add("accept", "application/json");
-        String url = "https://api.yelp.com/v3/businesses/search?location=" + location + "&term=fast%20food&radius=40000&categories=Fast%20food&open_now=true&sort_by=best_match&matches_party_size_param=true&limit=20";
+        String url = "https://api.yelp.com/v3/businesses/search?location=" + location + "&term=food&categories=Fast%20food&sort_by=best_match&limit=20";
         HttpEntity<Object> entity = new HttpEntity<Object>(headers);
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
