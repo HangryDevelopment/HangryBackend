@@ -30,6 +30,7 @@ public class YelpService {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", apiKey);
         headers.add("accept", "application/json");
+        headers.add("Access-Control-Allow-Origin", "*");
         String url = "https://api.yelp.com/v3/businesses/search?location=" + location + "&radius=25000&term=fastfood&categories=Fast%20food&sort_by=distance&limit=50";
         HttpEntity<Object> entity = new HttpEntity<Object>(headers);
         RestTemplate restTemplate = new RestTemplate();
