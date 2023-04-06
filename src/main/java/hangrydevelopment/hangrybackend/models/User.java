@@ -26,22 +26,8 @@ public class User {
     @Column(nullable = false, unique = true, length = 50)
     private String userName;
 
-    @Column(nullable = true, length = 50)
-    private String region;
-
-    @Column(nullable = false, length = 10)
-    private Boolean blocked;
-
-    @Column()
-    private String backdrop_url;
-
-    @Column()
-    private String avatar_url;
-
-    @Email
-    @NotEmpty
-    @Column(nullable = false, length = 100)
-    private String email;
+    @Column(nullable = false, length = 15)
+    private String password;
 
     @Column(nullable = false)
     private LocalDate createdAt;

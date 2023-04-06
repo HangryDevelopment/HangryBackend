@@ -1,7 +1,7 @@
 package hangrydevelopment.hangrybackend.controller;
 
 import hangrydevelopment.hangrybackend.dto.UserAuthInfoDto;
-import hangrydevelopment.hangrybackend.services.AuthBuddy;
+// import hangrydevelopment.hangrybackend.services.AuthBuddy;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.RequestBody;
 import hangrydevelopment.hangrybackend.models.User;
@@ -29,7 +29,7 @@ import java.util.Optional;
 @RequestMapping(value = "/api/users", produces = "application/json")
 public class UserController {
     private UsersRepository usersRepository;
-    private AuthBuddy authBuddy;
+    // private AuthBuddy authBuddy;
 
     // Using Google login, need to verify if email and password encoder is needed:
 //    private PasswordEncoder passwordEncoder;
@@ -44,9 +44,7 @@ public class UserController {
             UserFetchDto userDTO = new UserFetchDto();
             userDTO.setId(user.getId());
             userDTO.setUserName(user.getUserName());
-            userDTO.setEmail(user.getEmail());
-            userDTO.setAvatar_url(user.getAvatar_url());
-            userDTO.setBackdrop_url(user.getBackdrop_url());
+            userDTO.setPassword(user.getPassword());
             userDTOs.add(userDTO);
         }
         return userDTOs;
@@ -61,22 +59,22 @@ public class UserController {
         return optionalUser;
     }
 
-    @GetMapping("/authinfo")
-    private UserAuthInfoDto getUserAuthInfo(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader) {
-        User loggedInUser = authBuddy.getUserFromAuthHeader(authHeader);
+    // @GetMapping("/authinfo")
+    // private UserAuthInfoDto getUserAuthInfo(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader) {
+    //     User loggedInUser = authBuddy.getUserFromAuthHeader(authHeader);
 
-        // use email to lookup the user's info
-        UserAuthInfoDto userDTO = new UserAuthInfoDto();
-        userDTO.setEmail(loggedInUser.getEmail());
-        userDTO.setRole(loggedInUser.getRole());
-        userDTO.setUserName(loggedInUser.getUserName());
-        userDTO.setAvatar_url(loggedInUser.getAvatar_url());
-        userDTO.setBackdrop_url(loggedInUser.getBackdrop_url());
-        userDTO.setId(loggedInUser.getId());
-        userDTO.setRegion(loggedInUser.getRegion());
+    //     // use email to lookup the user's info
+    //     UserAuthInfoDto userDTO = new UserAuthInfoDto();
+    //     userDTO.setEmail(loggedInUser.getEmail());
+    //     userDTO.setRole(loggedInUser.getRole());
+    //     userDTO.setUserName(loggedInUser.getUserName());
+    //     userDTO.setAvatar_url(loggedInUser.getAvatar_url());
+    //     userDTO.setBackdrop_url(loggedInUser.getBackdrop_url());
+    //     userDTO.setId(loggedInUser.getId());
+    //     userDTO.setRegion(loggedInUser.getRegion());
 
-        return userDTO;
-    }
+    //     return userDTO;
+    // }
     //
     @GetMapping("/me")
     private Optional<User> fetchMe() {
