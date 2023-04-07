@@ -5,7 +5,7 @@ import hangrydevelopment.hangrybackend.dto.UserAuthInfoDto;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.RequestBody;
 import hangrydevelopment.hangrybackend.models.User;
-import hangrydevelopment.hangrybackend.models.UserRole;
+import hangrydevelopment.hangrybackend.models.Role;
 import hangrydevelopment.hangrybackend.dto.UserFetchDto;
 import hangrydevelopment.hangrybackend.misc.FieldHelper;
 import hangrydevelopment.hangrybackend.repository.UsersRepository;
@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+// import org.springframework.security.access.prepost.PreAuthorize;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 //import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -62,13 +63,25 @@ public class UserController {
     }
 
     @GetMapping("/username/{userName}")
-    public ResponseEntity<User> getUserByUsername(@PathVariable String userName) {
+    public ResponseEntity<User> getUserByUserName(@PathVariable String userName) {
         User user = usersRepository.findByUserName(userName);
         if (user == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User " + userName + " not found");
         }
         return ResponseEntity.ok(user);
     }
+
+    // @GetMapping("/private")
+    // @PreAuthorize("hasRole('ROLE_USER')")
+    // public String getPrivateData() {
+    //     return "This data is private and can only be accessed by authenticated users with the role ROLE_USER.";
+    // }
+
+    // @GetMapping("/admin")
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
+    // public String getAdminData() {
+    //     return "This data is private and can only be accessed by authenticated users with the role ROLE_ADMIN.";
+    // }
 
     // @GetMapping("/authinfo")
     // private UserAuthInfoDto getUserAuthInfo(@RequestHeader(value =
@@ -121,9 +134,9 @@ public class UserController {
     public void createUser(@RequestBody User newUser) {
         // TODO: validate new user fields
         if (newUser.getUserName().contains("Chase")) {
-            newUser.setRole(UserRole.ADMIN);
+            newUser.setRole(Role.ADMIN);
         } else {
-            newUser.setRole(UserRole.USER);
+            newUser.setRole(Role.USER);
         }
         // String plainTextPassword = newUser.getPassword();
         // String encryptedPassword = passwordEncoder.encode(plainTextPassword);

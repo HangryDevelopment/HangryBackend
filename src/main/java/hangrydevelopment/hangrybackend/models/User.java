@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 // import java.util.Collection;
 // import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -35,7 +36,10 @@ public class User {
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column
-    private UserRole role;
+    private Role role;
+
+    // @ElementCollection(fetch = FetchType.EAGER)
+    // private Set<String> roles;
 
     // @ManyToMany(cascade = CascadeType.MERGE, mappedBy = "userFriends")
     // @JsonIgnoreProperties({"userFriends", "likes", "userName", "gamerTag",

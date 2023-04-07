@@ -1,5 +1,5 @@
 package hangrydevelopment.hangrybackend.models;
 
-public enum UserRole {
+public enum Role {
     USER, ADMIN
 }
