@@ -13,6 +13,7 @@ import hangrydevelopment.hangrybackend.repository.UsersRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 //import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -32,11 +33,11 @@ public class UserController {
     // private AuthBuddy authBuddy;
 
     // Using Google login, need to verify if email and password encoder is needed:
-//    private PasswordEncoder passwordEncoder;
-//
+    // private PasswordEncoder passwordEncoder;
+    //
     @GetMapping("")
     public List<UserFetchDto> fetchUsers() {
-//        return usersRepository.fetchUserDTOs();
+        // return usersRepository.fetchUserDTOs();
         List<User> users = usersRepository.findAll();
         List<UserFetchDto> userDTOs = new ArrayList<>();
 
@@ -49,6 +50,7 @@ public class UserController {
         }
         return userDTOs;
     }
+
     //
     @GetMapping("/{id}")
     public Optional<User> fetchUserById(@PathVariable long id) {
@@ -59,21 +61,31 @@ public class UserController {
         return optionalUser;
     }
 
+    @GetMapping("/username/{userName}")
+    public ResponseEntity<User> getUserByUsername(@PathVariable String userName) {
+        User user = usersRepository.findByUserName(userName);
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User " + userName + " not found");
+        }
+        return ResponseEntity.ok(user);
+    }
+
     // @GetMapping("/authinfo")
-    // private UserAuthInfoDto getUserAuthInfo(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader) {
-    //     User loggedInUser = authBuddy.getUserFromAuthHeader(authHeader);
+    // private UserAuthInfoDto getUserAuthInfo(@RequestHeader(value =
+    // HttpHeaders.AUTHORIZATION, required = false) String authHeader) {
+    // User loggedInUser = authBuddy.getUserFromAuthHeader(authHeader);
 
-    //     // use email to lookup the user's info
-    //     UserAuthInfoDto userDTO = new UserAuthInfoDto();
-    //     userDTO.setEmail(loggedInUser.getEmail());
-    //     userDTO.setRole(loggedInUser.getRole());
-    //     userDTO.setUserName(loggedInUser.getUserName());
-    //     userDTO.setAvatar_url(loggedInUser.getAvatar_url());
-    //     userDTO.setBackdrop_url(loggedInUser.getBackdrop_url());
-    //     userDTO.setId(loggedInUser.getId());
-    //     userDTO.setRegion(loggedInUser.getRegion());
+    // // use email to lookup the user's info
+    // UserAuthInfoDto userDTO = new UserAuthInfoDto();
+    // userDTO.setEmail(loggedInUser.getEmail());
+    // userDTO.setRole(loggedInUser.getRole());
+    // userDTO.setUserName(loggedInUser.getUserName());
+    // userDTO.setAvatar_url(loggedInUser.getAvatar_url());
+    // userDTO.setBackdrop_url(loggedInUser.getBackdrop_url());
+    // userDTO.setId(loggedInUser.getId());
+    // userDTO.setRegion(loggedInUser.getRegion());
 
-    //     return userDTO;
+    // return userDTO;
     // }
     //
     @GetMapping("/me")
@@ -82,22 +94,29 @@ public class UserController {
         User user = usersRepository.findByUserName(userName);
         return Optional.of(user);
     }
-//
-//    @GetMapping("/username/{userName}")
-//    private User fetchByUserName(@PathVariable String userName) {
-//
-//    }
 
-    //    @GetMapping("/email/{email}")
-//    private User fetchByEmail(@PathVariable String email) {
-//        User user = findUserByEmail(email);
-//        if(user == null) {
-//            // what to do if we don't find it
-//            throw new RuntimeException("I don't know what I am doing");
-//        }
-//        return user;
-//    }
-//
+    // @GetMapping("/username/{userName}")
+    // private Optional<User> fetchByUserName(@PathVariable String userName) {
+    // User user = usersRepository.findByUserName(userName);
+    // if (user.isEmpty()) {
+    // throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User " + id + " not
+    // found");
+    // }
+
+    // return Optional.of(user);
+
+    // }
+
+    // @GetMapping("/email/{email}")
+    // private User fetchByEmail(@PathVariable String email) {
+    // User user = findUserByEmail(email);
+    // if(user == null) {
+    // // what to do if we don't find it
+    // throw new RuntimeException("I don't know what I am doing");
+    // }
+    // return user;
+    // }
+    //
     @PostMapping("/create")
     public void createUser(@RequestBody User newUser) {
         // TODO: validate new user fields
@@ -106,9 +125,9 @@ public class UserController {
         } else {
             newUser.setRole(UserRole.USER);
         }
-//        String plainTextPassword = newUser.getPassword();
-//        String encryptedPassword = passwordEncoder.encode(plainTextPassword);
-//        newUser.setPassword(encryptedPassword);
+        // String plainTextPassword = newUser.getPassword();
+        // String encryptedPassword = passwordEncoder.encode(plainTextPassword);
+        // newUser.setPassword(encryptedPassword);
         newUser.setCreatedAt(LocalDate.now());
         usersRepository.save(newUser);
     }
@@ -140,26 +159,29 @@ public class UserController {
         usersRepository.save(originalUser);
     }
 
-//    @PutMapping("/{id}/updatePassword")
-//    private void updatePassword(@PathVariable Long id, @RequestParam(required = false) String oldPassword, @RequestParam String newPassword) {
-//        Optional<User> optionalUser = usersRepository.findById(id);
-//        if (optionalUser.isEmpty()) {
-//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User " + id + " not found");
-//        }
-//
-//        User user = optionalUser.get();
-//
-//        // compare old password with saved pw
-//        if (!user.getPassword().equals(oldPassword)) {
-//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "amscray");
-//        }
-//
-//        // validate new password
-//        if (newPassword.length() < 3) {
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "new pw length must be at least 3 characters");
-//        }
-//
-//        user.setPassword(newPassword);
-//        usersRepository.save(user);
-//    }
+    // @PutMapping("/{id}/updatePassword")
+    // private void updatePassword(@PathVariable Long id, @RequestParam(required =
+    // false) String oldPassword, @RequestParam String newPassword) {
+    // Optional<User> optionalUser = usersRepository.findById(id);
+    // if (optionalUser.isEmpty()) {
+    // throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User " + id + " not
+    // found");
+    // }
+    //
+    // User user = optionalUser.get();
+    //
+    // // compare old password with saved pw
+    // if (!user.getPassword().equals(oldPassword)) {
+    // throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "amscray");
+    // }
+    //
+    // // validate new password
+    // if (newPassword.length() < 3) {
+    // throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "new pw length must
+    // be at least 3 characters");
+    // }
+    //
+    // user.setPassword(newPassword);
+    // usersRepository.save(user);
+    // }
 }
