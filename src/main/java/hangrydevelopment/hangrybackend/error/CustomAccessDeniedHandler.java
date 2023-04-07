@@ -1,15 +1,17 @@
-package hangrydevelopment.hangrybackend.error;//package gamefaceproductions.gamefacewebsite.error;
+package hangrydevelopment.hangrybackend.error;// package gamefaceproductions.gamefacewebsite.error;
+
 //
-//import org.springframework.security.access.AccessDeniedException;
-//import org.springframework.security.web.access.AccessDeniedHandler;
+// import org.springframework.security.access.AccessDeniedException;
+// import org.springframework.security.web.access.AccessDeniedHandler;
 //
-//import javax.servlet.http.HttpServletRequest;
-//import javax.servlet.http.HttpServletResponse;
+// import javax.servlet.http.HttpServletRequest;
+// import javax.servlet.http.HttpServletResponse;
 //
-//public class CustomAccessDeniedHandler implements AccessDeniedHandler {
+// public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 //
-//    @Override
-//    public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException e) {
-//        throw e;
-//    }
-//}
+// @Override
+// public void handle(HttpServletRequest httpServletRequest, HttpServletResponse
+// httpServletResponse, AccessDeniedException e) {
+// throw e;
+// }
+// }

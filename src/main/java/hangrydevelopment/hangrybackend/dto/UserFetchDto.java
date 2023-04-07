@@ -11,7 +11,7 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-///**
+/// **
 // * this is the user dto returned when calling /api/users (or fetch all users)
 // */
 public class UserFetchDto {

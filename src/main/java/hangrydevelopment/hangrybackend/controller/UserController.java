@@ -74,13 +74,15 @@ public class UserController {
     // @GetMapping("/private")
     // @PreAuthorize("hasRole('ROLE_USER')")
     // public String getPrivateData() {
-    //     return "This data is private and can only be accessed by authenticated users with the role ROLE_USER.";
+    // return "This data is private and can only be accessed by authenticated users
+    // with the role ROLE_USER.";
     // }
 
     // @GetMapping("/admin")
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
     // public String getAdminData() {
-    //     return "This data is private and can only be accessed by authenticated users with the role ROLE_ADMIN.";
+    // return "This data is private and can only be accessed by authenticated users
+    // with the role ROLE_ADMIN.";
     // }
 
     // @GetMapping("/authinfo")
