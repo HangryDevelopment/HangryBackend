@@ -7,6 +7,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import org.apache.commons.lang3.builder.ToStringExclude;
+
 import java.time.LocalDate;
 // import java.util.Collection;
 // import java.util.List;
@@ -27,7 +30,8 @@ public class User {
     @Column(nullable = false, unique = true, length = 50)
     private String userName;
 
-    @Column(nullable = false, length = 15)
+    @ToString.Exclude
+    @Column(nullable = false, length = 100)
     private String password;
 
     @Column(nullable = false)
