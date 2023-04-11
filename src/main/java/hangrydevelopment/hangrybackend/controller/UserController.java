@@ -1,11 +1,13 @@
 package hangrydevelopment.hangrybackend.controller;
 
-import hangrydevelopment.hangrybackend.dto.UserAuthInfoDto;
+// import hangrydevelopment.hangrybackend.dto.UserAuthInfoDto;
 // import hangrydevelopment.hangrybackend.services.AuthBuddy;
-import org.springframework.http.HttpHeaders;
+// import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.RequestBody;
 import hangrydevelopment.hangrybackend.models.User;
 import hangrydevelopment.hangrybackend.models.Role;
+import hangrydevelopment.hangrybackend.models.Restaurant;
+
 import hangrydevelopment.hangrybackend.dto.UserFetchDto;
 import hangrydevelopment.hangrybackend.misc.FieldHelper;
 import hangrydevelopment.hangrybackend.repository.UsersRepository;
@@ -14,6 +16,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 // import org.springframework.security.access.prepost.PreAuthorize;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 //import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -62,13 +65,20 @@ public class UserController {
         return optionalUser;
     }
 
-    @GetMapping("/username/{userName}")
-    public ResponseEntity<User> getUserByUserName(@PathVariable String userName) {
+    @GetMapping("/username/{userName}/{userPass}")
+    public ResponseEntity<User> getUserByUserName(@PathVariable String userName, @PathVariable String userPass) {
+        BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
         User user = usersRepository.findByUserName(userName);
         if (user == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User " + userName + " not found");
+        } else {
+            if (bcrypt.matches(userPass, user.getPassword())) {
+
+                return ResponseEntity.ok(user);
+            } else {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Password does not match.");
+            }
         }
-        return ResponseEntity.ok(user);
     }
 
     // @GetMapping("/private")
@@ -140,9 +150,10 @@ public class UserController {
         } else {
             newUser.setRole(Role.USER);
         }
-        // String plainTextPassword = newUser.getPassword();
-        // String encryptedPassword = passwordEncoder.encode(plainTextPassword);
-        // newUser.setPassword(encryptedPassword);
+        BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+        String plainTextPassword = newUser.getPassword();
+        String encryptedPassword = bcrypt.encode(plainTextPassword);
+        newUser.setPassword(encryptedPassword);
         newUser.setCreatedAt(LocalDate.now());
         usersRepository.save(newUser);
     }
@@ -199,4 +210,3 @@ public class UserController {
     // user.setPassword(newPassword);
     // usersRepository.save(user);
     // }
-}

@@ -7,7 +7,13 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import org.apache.commons.lang3.builder.ToStringExclude;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.time.LocalDate;
+import java.util.Collection;
 // import java.util.Collection;
 // import java.util.List;
 import java.util.Set;
@@ -27,7 +33,8 @@ public class User {
     @Column(nullable = false, unique = true, length = 50)
     private String userName;
 
-    @Column(nullable = false, length = 15)
+    @ToString.Exclude
+    @Column(nullable = false, length = 100)
     private String password;
 
     @Column(nullable = false)
@@ -46,4 +53,13 @@ public class User {
     // "region", "blocked", "email", "createdAt", "role", "friendsList", "posts",
     // "postComments", "games", "platforms"})
     // private List<User> friendsList;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH,
+            CascadeType.REFRESH }, targetEntity = Restaurant.class)
+    @JoinTable(name = "user_restaurants", joinColumns = {
+            @JoinColumn(name = "user_id", nullable = false, updatable = false) }, inverseJoinColumns = {
+                    @JoinColumn(name = "restaurant_id", nullable = false, updatable = false) }, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT), inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
+    @JsonIgnoreProperties("users")
+    @ToString.Exclude
+    private Collection<Restaurant> restaurants;
 }
