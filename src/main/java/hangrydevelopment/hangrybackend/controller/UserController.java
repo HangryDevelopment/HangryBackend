@@ -6,6 +6,8 @@ package hangrydevelopment.hangrybackend.controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import hangrydevelopment.hangrybackend.models.User;
 import hangrydevelopment.hangrybackend.models.Role;
+import hangrydevelopment.hangrybackend.models.Restaurant;
+
 import hangrydevelopment.hangrybackend.dto.UserFetchDto;
 import hangrydevelopment.hangrybackend.misc.FieldHelper;
 import hangrydevelopment.hangrybackend.repository.UsersRepository;
@@ -208,4 +210,3 @@ public class UserController {
     // user.setPassword(newPassword);
     // usersRepository.save(user);
     // }
-}
