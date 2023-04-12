@@ -8,7 +8,7 @@ import hangrydevelopment.hangrybackend.models.User;
 import hangrydevelopment.hangrybackend.models.Role;
 import hangrydevelopment.hangrybackend.models.Restaurant;
 
-import hangrydevelopment.hangrybackend.dto.UserFetchDto;
+import hangrydevelopment.hangrybackend.dto.UserAuthInfoDto;
 import hangrydevelopment.hangrybackend.misc.FieldHelper;
 import hangrydevelopment.hangrybackend.repository.UsersRepository;
 
@@ -40,16 +40,17 @@ public class UserController {
     // private PasswordEncoder passwordEncoder;
     //
     @GetMapping("")
-    public List<UserFetchDto> fetchUsers() {
+    public List<UserAuthInfoDto> fetchUsers() {
         // return usersRepository.fetchUserDTOs();
         List<User> users = usersRepository.findAll();
-        List<UserFetchDto> userDTOs = new ArrayList<>();
+        List<UserAuthInfoDto> userDTOs = new ArrayList<>();
 
         for (User user : users) {
-            UserFetchDto userDTO = new UserFetchDto();
+            UserAuthInfoDto userDTO = new UserAuthInfoDto();
             userDTO.setId(user.getId());
             userDTO.setUserName(user.getUserName());
             userDTO.setPassword(user.getPassword());
+            userDTO.setRole(user.getRole());
             userDTOs.add(userDTO);
         }
         return userDTOs;
@@ -80,20 +81,6 @@ public class UserController {
             }
         }
     }
-
-    // @GetMapping("/private")
-    // @PreAuthorize("hasRole('ROLE_USER')")
-    // public String getPrivateData() {
-    // return "This data is private and can only be accessed by authenticated users
-    // with the role ROLE_USER.";
-    // }
-
-    // @GetMapping("/admin")
-    // @PreAuthorize("hasRole('ROLE_ADMIN')")
-    // public String getAdminData() {
-    // return "This data is private and can only be accessed by authenticated users
-    // with the role ROLE_ADMIN.";
-    // }
 
     // @GetMapping("/authinfo")
     // private UserAuthInfoDto getUserAuthInfo(@RequestHeader(value =
@@ -184,29 +171,30 @@ public class UserController {
 
         usersRepository.save(originalUser);
     }
+}
 
-    // @PutMapping("/{id}/updatePassword")
-    // private void updatePassword(@PathVariable Long id, @RequestParam(required =
-    // false) String oldPassword, @RequestParam String newPassword) {
-    // Optional<User> optionalUser = usersRepository.findById(id);
-    // if (optionalUser.isEmpty()) {
-    // throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User " + id + " not
-    // found");
-    // }
-    //
-    // User user = optionalUser.get();
-    //
-    // // compare old password with saved pw
-    // if (!user.getPassword().equals(oldPassword)) {
-    // throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "amscray");
-    // }
-    //
-    // // validate new password
-    // if (newPassword.length() < 3) {
-    // throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "new pw length must
-    // be at least 3 characters");
-    // }
-    //
-    // user.setPassword(newPassword);
-    // usersRepository.save(user);
-    // }
+// @PutMapping("/{id}/updatePassword")
+// private void updatePassword(@PathVariable Long id, @RequestParam(required =
+// false) String oldPassword, @RequestParam String newPassword) {
+// Optional<User> optionalUser = usersRepository.findById(id);
+// if (optionalUser.isEmpty()) {
+// throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User " + id + " not
+// found");
+// }
+//
+// User user = optionalUser.get();
+//
+// // compare old password with saved pw
+// if (!user.getPassword().equals(oldPassword)) {
+// throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "amscray");
+// }
+//
+// // validate new password
+// if (newPassword.length() < 3) {
+// throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "new pw length must
+// be at least 3 characters");
+// }
+//
+// user.setPassword(newPassword);
+// usersRepository.save(user);
+// }
