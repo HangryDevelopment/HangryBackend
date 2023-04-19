@@ -21,7 +21,7 @@ public class Restaurant {
     @Column(nullable = false, unique = true)
     private String restaurantId;
 
-    @Column(nullable = false, unique = true, length = 100)
+    @Column(nullable = false, length = 150)
     private String restaurant;
 
     @Column(nullable = true, unique = false)
