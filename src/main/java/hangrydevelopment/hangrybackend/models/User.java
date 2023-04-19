@@ -59,7 +59,7 @@ public class User {
     @JoinTable(name = "user_restaurants", joinColumns = {
             @JoinColumn(name = "user_id", nullable = false, updatable = false) }, inverseJoinColumns = {
                     @JoinColumn(name = "restaurant_id", nullable = false, updatable = false) }, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT), inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
-    @JsonIgnoreProperties("users")
+    @JsonIgnoreProperties({"users"})
     @ToString.Exclude
     private Collection<Restaurant> restaurants;
 }
